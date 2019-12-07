@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+<style>
+   body {
+     margin: 0px;
+     padding: 0px;
+     background-color: gray;
+   }
+   #paint {
+      background-color: white;
+      width: 224px;
+   }
+</style>
+<h2>Write the number below</h2>
+
+</head>
+<body data-rsssl=1>
+<div id="paint">
+   <canvas id="myCanvas"></canvas>
+</div>
+<button onclick="myFunction()">Click me</button>
+
+<script>
+var canvas = document.getElementById('myCanvas');
+var ctx = canvas.getContext('2d');
+
+var painting = document.getElementById('paint');
+var paint_style = getComputedStyle(painting);
+canvas.width = parseInt(224);
+canvas.height = parseInt(224);
+var mouse = {x: 0, y: 0};
+
+canvas.addEventListener('mousemove', function(e) {
+mouse.x = e.pageX - this.offsetLeft;
+mouse.y = e.pageY - this.offsetTop;
+}, false);
+
+ctx.lineWidth = 3;
+ctx.lineJoin = 'round';
+ctx.lineCap = 'round';
+ctx.strokeStyle = '#000000';
+
+canvas.addEventListener('mousedown', function(e) {
+ctx.beginPath();
+ctx.moveTo(mouse.x, mouse.y);
+
+canvas.addEventListener('mousemove', onPaint, false);
+}, false);
+
+canvas.addEventListener('mouseup', function() {
+canvas.removeEventListener('mousemove', onPaint, false);
+}, false);
+
+var onPaint = function() {
+ctx.lineTo(mouse.x, mouse.y);
+ctx.stroke();
+
+
+
+
+
+
+
+};
+function myFunction() {
+   var img = canvas.toDataURL("image/png");
+   document.write('<img src="'+img+'"/>');
+}
+</script>
+
+<!-- // <script type="text/javascript" src="url_for('static', filename='js/draw.js')"></script> -->
+
+<!-- {% from "_formhelpers.html" import render_field %} -->
+<!-- <div id="paint-app"></div> -->
+<!-- <form method=post action="/results">
+  <dl>
+	{{ render_field(form.moviereview, cols='30', rows='10') }}
+  </dl>
+  <div>
+	  <input type=submit value='Submit review' name='submit_btn'>
+  </div>
+
+</form> -->
+
+
+  </body>
+</html>
