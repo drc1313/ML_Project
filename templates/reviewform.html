@@ -23,7 +23,12 @@
    <canvas id="second-canvas"></canvas>
 </div>
 <button onclick="myFunction()">Click me</button>
-
+<select id = "mySelect">
+  <option value="+">+</option>
+  <option value="-">-</option>
+  <option value="*">*</option>
+  <option value="/">/</option>
+</select>
 <script>
   function setupCanvas(canvas, painting) {
     var ctx = canvas.getContext('2d');
@@ -67,14 +72,14 @@
 function myFunction() {
   var lhs;
   var rhs;
-  let operation = '+'; // define me
+  let operation = document.getElementById("mySelect").value;
   let data = new FormData();
   data.append('operation', operation);
   let resultsElem = document.getElementById('results');
 
   document.getElementById('first-canvas').toBlob((blob) => {
     data.append('lhs', blob);
-    
+
     document.getElementById('second-canvas').toBlob((blob) => {
       data.append('rhs', blob);
 
