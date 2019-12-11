@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<style>
+   body {
+     margin: 0px;
+     padding: 0px;
+     background-color: gray;
+   }
+   .paint {
+      background-color: white;
+      width: 224px;
+   }
+</style>
+<h2>Write the number below</h2>
+
+</head>
+<body data-rsssl=1>
+<div id="first-paint" class="paint">
+   <canvas id="first-canvas"></canvas>
+</div>
+<div id="second-paint" class="paint">
+   <canvas id="second-canvas"></canvas>
+</div>
+<button onclick="myFunction()">Click me</button>
+
+<script>
+  function setupCanvas(canvas, painting) {
+    var ctx = canvas.getContext('2d');
+
+    var paint_style = getComputedStyle(painting);
+    canvas.width = parseInt(224);
+    canvas.height = parseInt(224);
+    var mouse = {x: 0, y: 0};
+
+    canvas.addEventListener('mousemove', function(e) {
+    mouse.x = e.pageX - this.offsetLeft;
+    mouse.y = e.pageY - this.offsetTop;
+    }, false);
+
+    ctx.lineWidth = 3;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#000000';
+
+    canvas.addEventListener('mousedown', function(e) {
+    ctx.beginPath();
+    ctx.moveTo(mouse.x, mouse.y);
+
+    canvas.addEventListener('mousemove', onPaint, false);
+    }, false);
+
+    canvas.addEventListener('mouseup', function() {
+    canvas.removeEventListener('mousemove', onPaint, false);
+    }, false);
+
+    var onPaint = function() {
+      ctx.lineTo(mouse.x, mouse.y);
+      ctx.stroke();
+    };
+  }
+
+  setupCanvas(document.getElementById('first-canvas'), document.getElementById('first-paint'));
+  setupCanvas(document.getElementById('second-canvas'), document.getElementById('first-paint'));
+
+
+function myFunction() {
+  var lhs;
+  var rhs;
+  let operation = '+'; // define me
+  let data = new FormData();
+  data.append('operation', operation);
+  let resultsElem = document.getElementById('results');
+
+  document.getElementById('first-canvas').toBlob((blob) => {
+    data.append('lhs', blob);
+    
+    document.getElementById('second-canvas').toBlob((blob) => {
+      data.append('rhs', blob);
+
+      fetch('/results', {
+        method: 'POST',
+        body: data
+      }).then((res) => {
+        return res.text();
+      }).then((res) => {
+        resultsElem.innerText = res;
+      });
+    }, "image/png");
+  }, "image/png");
+
+
+
+}
+</script>
+
+  </body>
+</html>
