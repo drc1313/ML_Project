@@ -9,6 +9,7 @@
    }
    .paint {
       background-color: white;
+      height: 224px;
       width: 224px;
    }
 </style>
@@ -17,10 +18,10 @@
 </head>
 <body data-rsssl=1>
 <div id="first-paint" class="paint">
-   <canvas id="first-canvas"></canvas>
+   <canvas id="first-canvas" style="border:1px solid #000000;"></canvas>
 </div>
 <div id="second-paint" class="paint">
-   <canvas id="second-canvas"></canvas>
+   <canvas id="second-canvas" style="border:1px solid #000000;"></canvas>
 </div>
 <button onclick="myFunction()">Click me</button>
 <select id = "mySelect">
@@ -41,12 +42,18 @@
     canvas.height = parseInt(224);
     var mouse = {x: 0, y: 0};
 
+    ctx.beginPath();
+      ctx.lineWidth = "6";
+      ctx.strokeStyle = "red";
+      ctx.rect(40.32, 40.32, 143.36,143.36);
+      ctx.stroke();
+
     canvas.addEventListener('mousemove', function(e) {
       mouse.x = e.pageX - this.offsetLeft;
       mouse.y = e.pageY - this.offsetTop;
     }, false);
 
-    ctx.lineWidth = 21;
+    ctx.lineWidth = 20;
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
     ctx.strokeStyle = '#000';

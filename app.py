@@ -17,21 +17,16 @@ def predict(image):
     image = image.resize((28, 28))
     image = image.convert('P')
     image = np.array(image)
-    image = image.reshape(784)
+    image = image.reshape(784).astype('float32')
     image = np.expand_dims(image, axis=0)
-    print(len(image[0]))
+
     for k in range(len(image[0])):
         if image[0][k]==255:
-            image[0][k]=0
+            image[0][k]=0.0
         else:
             if image[0][k]>0:
-                image[0][k]=1
+                image[0][k]=1.0
 
-
-    for k in range(len(image[0])):
-        if k%14==0:
-            print(image[0][k-14:k])
-    # print(image)
     preds = model.predict(image)
 
     return np.where(preds == preds.max())[1][0]
