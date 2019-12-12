@@ -15,7 +15,7 @@ def index():
 
 def predict(image):
     image = image.resize((28, 28))
-    image = image.convert('L')
+    image = image.convert('P')
     image = np.array(image)
     image = image.reshape(784)
     image = np.expand_dims(image, axis=0)
@@ -26,7 +26,6 @@ def predict(image):
 
 @app.route('/results', methods=['POST'])
 def results():
-
     lhs_img = Image.open(io.BytesIO(request.files['lhs'].read()))
     rhs_img = Image.open(io.BytesIO(request.files['rhs'].read()))
     operation = request.form['operation']
