@@ -93,7 +93,7 @@ function myFunction() {
     document.getElementById('second-canvas').toBlob((blob) => {
       data.append('rhs', blob);
 
-      fetch('/results', {
+      fetch('/ml/results', {
         method: 'POST',
         body: data
       }).then((res) => {
