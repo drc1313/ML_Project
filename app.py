@@ -6,8 +6,8 @@ import numpy as np
 from keras.models import model_from_json
 
 app = Flask(__name__)
-model = model_from_json(open('pkl_objects/mnist.json').read())
-model.load_weights('pkl_objects/mnist.h5')
+model = model_from_json(open('pkl_objects/model.json').read())
+model.load_weights('pkl_objects/model.h5')
 
 @app.route('/')
 def index():
@@ -19,7 +19,7 @@ def predict(image):
     image = np.array(image)
     image = image.reshape(784)
     image = np.expand_dims(image, axis=0)
-
+    print(image)
     preds = model.predict(image)
 
     return np.where(preds == preds.max())[1][0]
